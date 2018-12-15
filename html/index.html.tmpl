@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Burger</title>
+
+    <link rel="stylesheet" type="text/css" href="/static/css/semantic.min.css">
+    <link rel="stylesheet" href="/static/css/main.css">
+  </head>
+  <body>
+    <div class="ui container">
+      <h1>Burgonomic</h1>
+      <h2>Relative pricing based on the Big Mac index</h2>
+      <hr>
+
+      <div id="app"></div>
+    </div>
+
+    <script type="text/x-template" id="countries-table-template">
+    <table class="ui inverted right aligned table countries">
+      <thead>
+        <tr>
+          <th class="left aligned">Country</th>
+          <th class="center aligned">Price of {{ sourceBurgerCount.toFixed(2) }} burgers</th>
+          <th>Burgers for ${{ sourceDollarCost.toFixed(2) }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="entry in filteredData">
+          <td class="left aligned">
+           <i :class="entry.flagClass" /> 
+           {{ entry.Name }}
+          </td>
+          <td class="center aligned">
+          {{ entry.localCost.toFixed(2) }} {{ entry.Currency_code }} /
+          {{ entry.targetCost.toFixed(2) }} USD
+          </td>
+          <td class="inline-burgers" :style='entry.styleObject'>
+          <span v-for="n in entry.burgerCount">🍔</span>
+          {{ entry.targetBurgerCount.toFixed(2) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </script>
+
+    <script type="text/x-template" id="burgers-template">
+    <div class="burgers">
+      <span v-for="n in count">🍔</span>
+    </div>
+    </script>
+
+    <script type="text/x-template" id="countries-dropdown-template">
+    <div class="ui fluid search selection dropdown">
+      <input type="hidden" name="country">
+      <i class="dropdown icon"></i>
+      <div class="default text">Select Country</div>
+      <div class="menu">
+        [[range .Records]]
+        <div class="item" data-value="[[ .Iso_a3 ]]"><i
+                          class="[[ .Iso_a2 | ToLower ]] flag"></i>[[ .Name ]]</div>
+        [[end]]
+      </div>
+    </div>
+    </script>
+    <script type="text/x-template" id="app-template">
+    <div class="ui three column stackable grid">
+        <div class="six wide column">
+          <h3>Location</h3>
+
+          <countries-dropdown
+          :selected="countrySelected"
+          v-on:country-selected="onCountrySelected"
+          >
+          </countries-dropdown>
+
+          <h3>Price</h3>
+
+          <form id="price-input-form" class="ui form">
+            <div class="field">
+              <div class="ui labeled input">
+                <label for="amount" class="ui label">{{
+                currencyCode }}</label>
+                <input type="text" placeholder="Amount" name="amount"
+                :disabled="!countrySelected"
+                v-model="inputPrice"
+                @keydown="onInputKeyDown">
+              </div>
+            </div>
+
+            <div class="ui error message"></div>
+          </form>
+
+          <p>Or about <strong>${{ dollarCost.toFixed(2) }}</strong>, which in
+          <strong>{{ countryName }}</strong> is the cost of <strong>{{
+          sourceBurgerCount.toFixed(2) }} Big Macs</strong>.</p>
+
+          <burgers
+          :source-burger-count="sourceBurgerCount">
+          </burgers>
+
+        </div>
+
+        <div class="ten wide column">
+        <h3>Countries</h3>
+
+        <div class="ui fluid icon input">
+          <input type="text" placeholder="Filter..." v-model="searchQuery">
+          <i class="search icon"></i>
+        </div>
+
+        <countries-table
+          :data="priceData"
+          :filter-key="searchQuery"
+          :source-burger-count="sourceBurgerCount"
+          :source-dollar-cost="dollarCost">
+        </countries-table>
+        </div>
+      </div>
+    </script>
+
+    <script type="text/javascript" src="/static/js/vue.js"></script>
+    <script src="/static/js/jquery-3.1.1.min.js"></script>
+    <script src="/static/js/semantic.min.js"></script>
+
+    <script type="text/javascript">
+      var data = JSON.parse([[ .JsonData ]]);
+    </script>
+    <script type="text/javascript" src="/static/js/main.js"></script>
+</html>
+
+

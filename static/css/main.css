@@ -1,0 +1,91 @@
+#full {
+  font-size: 0.55rem;
+}
+
+body > .ui.container {
+	margin-top: 3em;
+}
+
+.ui.container > h1 {
+	font-size: 3em;
+	text-align: center;
+	font-weight: normal;
+}
+
+.ui.container > h2 {
+  text-align: center;
+}
+
+/* Mobile */
+@media only screen and (max-width:767px) {
+  :root {
+    /*--fsize: 25vw;*/
+  }
+}
+
+/* Tablet */
+@media only screen and (min-width:768px) {
+  :root {
+    /*--fsize: 25vw;*/
+  }
+}
+@media only screen and (max-width:991px) {}
+
+/* Small monitor */
+@media only screen and (min-width:992px) {
+  :root {
+    /*--fsize: 20vw;*/
+  }
+
+}
+@media only screen and (max-width:1199) {}
+
+/* Large monitor */
+@media only screen and (min-width:1200px) {
+  :root {
+    /*--fsize: 10vw;*/
+  }
+}
+
+.burgers {
+  --fsize: 8vw;
+  --lineh: calc(var(--fsize) * 1.2);
+  --frac: 0.5;
+
+  font-size: var(--fsize);
+  line-height: var(--lineh);
+  text-align: center;
+}
+
+.burgers > span {
+  position: relative;
+}
+
+.burgers > span:last-child::after {
+  clip-path: inset(0 0 0 calc(var(--fsize) * (1.0 - var(--frac))));
+  content: "🍔";
+  position: absolute;
+  top: -1;
+  left: 0;
+  filter: grayscale() blur(1px);
+}
+
+table.countries {
+  table-layout: fixed;
+}
+
+.inline-burgers > span {
+  position: relative;
+}
+
+.inline-burgers > span:last-child::after {
+  clip-path: inset(0 0 0 calc(1em * (1.0 - var(--frac))));
+  content: "🍔";
+  position: absolute;
+  top: -1;
+  left: 0;
+  /*filter: grayscale() blur(1px);*/
+  filter: grayscale();
+}
+
+

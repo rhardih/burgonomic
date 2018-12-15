@@ -1,0 +1,16 @@
+FROM golang:latest
+
+ENV APPDIR /go/src/burger-pricing
+
+RUN mkdir -p $APPDIR
+WORKDIR $APPDIR
+
+COPY . $APPDIR
+
+RUN go get github.com/codegangsta/gin
+RUN go get -d -v ./...
+RUN go install -v ./...
+
+EXPOSE 3000
+
+CMD gin --appPort $APP_PORT run main.go
