@@ -1,12 +1,7 @@
-version: "2"
+version: "3.7"
+
 services:
-  bp:
-    build:
-      context: .
-      dockerfile: ./Dockerfile.dev
+  app:
+    build: .
     image: docker.rhardih.io/burgonomic
-    ports: 
-      - 3000:3000
-    volumes:
-      - ./:/go/src/burger-pricing
     env_file: .env

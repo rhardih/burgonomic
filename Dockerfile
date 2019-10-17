@@ -1,21 +1,21 @@
-FROM golang:alpine AS build
+FROM golang:1.12-alpine AS build
 
-RUN apk add --update \
-  git
+RUN apk update && apk add --no-cache git
 
-WORKDIR /go/src/burger-pricing
+WORKDIR /app
 
 COPY . .
 
-RUN go get -d -v ./...
-RUN go install -v ./...
+RUN CGO_ENABLED=0 GOOS=linux \
+  go build -a -installsuffix cgo -ldflags '-extldflags "-static"' -o main .
 
-FROM alpine:3.7
+FROM scratch
 
-RUN apk add --no-cache ca-certificates
-COPY --from=build /go/src/burger-pricing/html ./html
-COPY --from=build /go/bin/burger-pricing .
+COPY --from=build /app/main ./main
+COPY --from=build /app/html ./html
+COPY --from=build /app/static ./static
+COPY --from=build /app/big-mac-adjusted-index.csv ./big-mac-adjusted-index.csv
 
 EXPOSE 8080
 
-CMD ["./burger-pricing"]
+CMD ["./main"]
