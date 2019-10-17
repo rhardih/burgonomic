@@ -110,7 +110,8 @@ func readData() {
 		jpy_adjusted := toFloat(line[12])
 		cny_adjusted := toFloat(line[13])
 
-		if date.Year() == 2018 && date.Month() == 7 {
+		// Only use latest data points
+		if date.Year() == 2019 && date.Month() == 7 {
 			d := Data{
 				Date:          date,
 				Iso_a3:        line[1],
