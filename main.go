@@ -220,10 +220,3 @@ func handleHtml(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 }
-
-func handleJson(w http.ResponseWriter, r *http.Request) {
-	log.Println(r.Method, r.RequestURI)
-
-	w.Header().Set("Cache-Control", "no-cache")
-	w.Header().Set("Content-Type", "application/json")
-}
