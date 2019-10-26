@@ -3,12 +3,3 @@ version: "3.7"
 services:
   app:
     restart: always
-    networks:
-      - default # implicitly created
-      - proxy
-    restart: on-failure
-
-networks:
-  proxy:
-    external:
-      name: new_default
