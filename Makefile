@@ -1,8 +1,8 @@
+deploy: build push
+	docker stack deploy -c docker-compose.yml burgonomic
+
 build:
-	docker-compose -f docker-compose.yml build
+	docker compose -f docker-compose.yml build
 
 push:
-	docker-compose -f docker-compose.yml push
-
-deploy: build push
-	docker-compose -f docker-compose.yml -f docker-compose.production.yml up -d
+	docker compose -f docker-compose.yml push
